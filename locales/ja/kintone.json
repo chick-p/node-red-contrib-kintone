@@ -1,0 +1,19 @@
+{
+  "kintone": {
+    "label": {
+      "name": "名前",
+      "config": "設定",
+      "method" : "メソッド",
+      "appId" : "アプリID",
+      "query" : "クエリ",
+      "records": "レコード",
+      "domain": "ドメイン",
+      "domainPlaceHolder": "exmaple.cybozu.com",
+      "username": "ログイン名",
+      "password": "パスワード"
+    },
+    "error": {
+      "json-error": "JSON Parse Error."
+    }
+  }
+}

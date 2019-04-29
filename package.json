@@ -1,0 +1,36 @@
+{
+  "name": "node-red-contrib-kintone",
+  "version": "1.0.0",
+  "description": "Node-RED nodes for kintone",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ext .json --ext .js . || eslint -c .eslintrc.html.json --ext .html ."
+  },
+  "node-red": {
+    "nodes": {
+      "kintone": "kintone.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chick-p/node-red-contrib-kintone.git"
+  },
+  "dependencies": {
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-plugin-html": "^5.0.3",
+    "eslint-plugin-json": "^1.4.0"
+  },
+  "keywords": [
+    "node-red",
+    "kintone"
+  ],
+  "author": {
+    "name": "chick-p",
+    "email": "chick.p.1120@gmail.com",
+    "url": "https://github.com/chick-p"
+  },
+  "license": "MIT"
+}

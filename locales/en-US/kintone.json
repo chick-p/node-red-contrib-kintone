@@ -1,0 +1,19 @@
+{
+  "kintone": {
+    "label": {
+      "name": "Name",
+      "config": "Config",
+      "method" : "Method",
+      "appId" : "App ID",
+      "query" : "Query",
+      "records": "Records",
+      "domain": "Domain",
+      "domainPlaceHolder": "exmaple.cybozu.com",
+      "username": "Login name",
+      "password": "Password"
+    },
+    "error": {
+      "json-error": "JSON Parse Error."
+    }
+  }
+}
