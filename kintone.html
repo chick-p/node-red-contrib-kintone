@@ -76,8 +76,8 @@
         mode: 'ace/mode/handlebars',
         value: $('#node-input-records').val()
       });
-      $('#node-input-method').on('change', () => {
-        let method = $('#node-input-method').val();
+      $('#node-input-method').on('change', function() {
+        var method = $('#node-input-method').val();
         if ( method === 'GET' ) {
           $('#node-query').show();
           $('#node-records').hide();
@@ -102,12 +102,12 @@
       delete this.recordEditor;
     },
     oneditresize: function() {
-      let rows = $('#dialog-form>div:not(.node-text-editor-row)');
-      let height = $('#dialog-form').height();
-      for (let i = 0; i < rows.size(); i++) {
+      var rows = $('#dialog-form>div:not(.node-text-editor-row)');
+      var height = $('#dialog-form').height();
+      for (var i = 0; i < rows.size(); i++) {
         height -= $(rows[i]).outerHeight(true);
       }
-      let editorRow = $('#dialog-form>div.node-text-editor-row');
+      var editorRow = $('#dialog-form>div.node-text-editor-row');
       height -=
         parseInt(editorRow.css('marginTop')) +
         parseInt(editorRow.css('marginBottom'));
@@ -158,7 +158,7 @@
       password: { type: 'password', required: true }
     },
     label: function() {
-      return this.name || `config[${this.id}]`;
+      return this.name || 'config[' + this.id + ']';
     }
   });
 </script>

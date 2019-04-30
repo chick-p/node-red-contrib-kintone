@@ -14,9 +14,9 @@ module.exports = function(RED) {
 
     this.config = RED.nodes.getNode(n.config);
 
-    let headers = createHeader(this.config);
-    let body = createBody(n);
-    let opts = {
+    const headers = createHeader(this.config);
+    const body = createBody(n);
+    const opts = {
       method: n.method,
       url: `${this.config.url}/k/v1/records.json`,
       timeout: reqTimeout,
@@ -51,15 +51,15 @@ module.exports = function(RED) {
     });
   }
 
-  let createHeader = function(config) {
-    let headers = {};
+  const createHeader = function(config) {
+    const headers = {};
     headers['Content-Type'] = 'application/json';
     headers['X-Cybozu-Authorization'] = config.token;
     return headers;
   };
 
-  let createBody = function(n) {
-    let body = {};
+  const createBody = function(n) {
+    const body = {};
     body.app = n.appId;
     if (n.method === 'GET') {
       body.totalCount = true;
