@@ -39,6 +39,7 @@ This example that output getting records from kintone.
     ![](./images/node.png "kintone Node")
 
 3. Connect to [inject] and [debug] nodes.
+
     ![](./images/connect.png "Connect")
 
 4. Delopy and Execute. You can get as following JSON format data.
