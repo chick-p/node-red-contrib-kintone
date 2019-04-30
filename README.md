@@ -9,12 +9,21 @@ Support operations are as following:
 See http://developer.cybozu.io/ for REST API specs.
 
 ## Installation
+Manually install:
+1. In the directory containing the node’s `package.json file`, run `npm link`
+    ```shell
+    $ git clone https://github.com/chick-p/node-red-contrib-kintone.git
+    $ cd node-red-contrib-kintone
+    $ npm link
+    ```
+2. Restart Node-RED.
+
+Using Node Package Manager:
 1. Change to your Node-RED user directory and install this package.
     ```shell
     $ cd ~/.node-red
     $ npm install node-red-contrib-kintone
     ```
-
 2. Restart Node-RED.
 
 ## Getting Started
