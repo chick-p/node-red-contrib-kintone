@@ -11,17 +11,18 @@ module.exports = function(RED) {
 
     this.config = RED.nodes.getNode(n.config);
 
-    const headers = createHeader(this.config);
-    const body = createBody(n);
-    const opts = {
-      method: n.method,
-      url: `${this.config.url}/k/v1/records.json`,
-      timeout: reqTimeout,
-      headers: headers,
-      body: JSON.stringify(body)
-    };
-
     node.on('input', (msg) => {
+      const headers = createHeader(this.config);
+      const body = createBody(n, msg);
+      console.log(JSON.stringify(body));
+      const opts = {
+        method: n.method,
+        url: `${this.config.url}/k/v1/records.json`,
+        timeout: reqTimeout,
+        headers: headers,
+        body: JSON.stringify(body)
+      };
+
       request(opts, (error, response, body) => {
         node.status({});
         if (error) {
@@ -55,17 +56,15 @@ module.exports = function(RED) {
     return headers;
   };
 
-  const createBody = function(n) {
+  const createBody = function(n, msg) {
     const body = {};
     body.app = n.appId;
     if (n.method === 'GET') {
       body.totalCount = true;
-      if (n.query) {
-        body.query = n.query;
-      }
+      body.query = n.query? n.query : msg.payload;
     }
     if (n.method === 'POST' || n.method === 'PUT') {
-      body.records = JSON.parse(n.records);
+      body.records = n.records? JSON.parse(n.records) : msg.payload;
     }
     return body;
   };

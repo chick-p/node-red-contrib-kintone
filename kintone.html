@@ -27,17 +27,18 @@
     <div class="form-row node-text-editor-row">
       <div style="height:250px;" class="node-text-editor" id="node-input-query-editor"></div>
     </div>
+    <div class="form-tips" id="tips-query"><span data-i18n="kintone.tip.query"></span></div>
   </div>
   <div id="node-records">
     <div class="form-row" id="node-records" style="position: relative; margin-bottom: 0px;">
-      <label for="node-input-records"><i class="fa fa-file-code-o"></i> <span data-i18n="kintone.label.records"></span><span style="color:#ff0000"> *</span></label>
+      <label for="node-input-records"><i class="fa fa-file-code-o"></i> <span data-i18n="kintone.label.records"></span></label>
       <input type="hidden" id="node-input-records" autofocus="autofocus">
     </div>
     <div class="form-row node-text-editor-row">
       <div style="height:250px;" class="node-text-editor" id="node-input-records-editor"></div>
     </div>
+    <div class="form-tips" id="tips-records"><span data-i18n="kintone.tip.records"></span></div>
   </div>
-  <div class="form-tips" id="tip-json" hidden><span data-i18n="kintone.tip.req"></span></div>
 </script>
 <script type="text/javascript">
   RED.nodes.registerType('kintone', {
@@ -48,14 +49,7 @@
       config: { type: 'kintone-config', required: true },
       appId: { value: '', required: true },
       query: { value: '' },
-      records: {
-        value: '',
-        validate: function(v) {
-          if ($('#node-input-method').val() === 'POST' || 'PUT' ) {
-            return v;
-          }
-          return true;
-        }},
+      records: { value: '' },
       method: { value: 'GET' }
     },
     inputs: 1,

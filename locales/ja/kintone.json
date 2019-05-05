@@ -12,6 +12,10 @@
       "username": "ログイン名",
       "password": "パスワード"
     },
+    "tip": {
+      "query": "「クエリ」フィールドが空の場合、クエリには msg.payload を利用します.",
+      "records": "「レコード」フィールドが空の場合、レコードには msg.payload を利用します."
+    },
     "error": {
       "json-error": "JSON Parse Error."
     }

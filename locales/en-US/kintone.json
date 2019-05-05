@@ -12,6 +12,10 @@
       "username": "Login name",
       "password": "Password"
     },
+    "tip": {
+      "query": "If the Query field is empty, the Query will be used msg.payload.",
+      "records": "If the Records field is empty, the Records will be used msg.payload."
+    },
     "error": {
       "json-error": "JSON Parse Error."
     }
