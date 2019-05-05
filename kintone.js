@@ -7,10 +7,7 @@ module.exports = function(RED) {
     RED.nodes.createNode(this, n);
     const node = this;
 
-    let reqTimeout = 120000;
-    if (RED.settings.httpRequestTimeout) {
-      reqTimeout = parseInt(RED.settings.httpRequestTimeout) || 120000;
-    }
+    const reqTimeout = RED.settings.httpRequestTimeout? parseInt(RED.settings.httpRequestTimeout) : 120000;
 
     this.config = RED.nodes.getNode(n.config);
 
