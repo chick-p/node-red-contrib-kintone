@@ -53,6 +53,9 @@ module.exports = function(RED) {
     const headers = {};
     headers['Content-Type'] = 'application/json';
     headers['X-Cybozu-Authorization'] = config.token;
+    if (config.basicToken) {
+      headers['Authorization'] = `Basic ${config.basicToken}`;
+    }
     return headers;
   };
 
@@ -77,6 +80,7 @@ module.exports = function(RED) {
       );
       this.token = buffer.toString('base64');
       this.url = `https://${this.credentials.domain}`;
+      this.basicToken = this.credentials.basicToken;
     }
   }
 
@@ -90,6 +94,9 @@ module.exports = function(RED) {
         type: 'text'
       },
       password: {
+        type: 'password'
+      },
+      basicToken: {
         type: 'password'
       }
     }
