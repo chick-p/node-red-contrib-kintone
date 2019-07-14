@@ -14,7 +14,6 @@ module.exports = function(RED) {
     node.on('input', (msg) => {
       const headers = createHeader(this.config);
       const body = createBody(n, msg);
-      console.log(JSON.stringify(body));
       const opts = {
         method: n.method,
         url: `${this.config.url}/k/v1/records.json`,
@@ -34,14 +33,23 @@ module.exports = function(RED) {
             text: error.code
           });
         } else {
-          msg.payload = body;
-          try {
-            msg.payload = JSON.parse(msg.payload);
-          } catch (e) {
-            node.warn(RED._('kintone.error.json-error'));
+          if (response && response.statusCode !== 200) {
+            node.error(body);
+            node.status({
+              fill: 'red',
+              shape: 'ring',
+              text: response.statusCode
+            });
+          } else {
+            msg.payload = body;
+            try {
+              msg.payload = JSON.parse(msg.payload);
+            } catch (e) {
+              node.warn(RED._('kintone.error.json-error'));
+            }
+            msg.statusCode = response.statusCode;
+            node.send(msg);
           }
-          msg.statusCode = response.statusCode;
-          node.send(msg);
         }
       });
     });
