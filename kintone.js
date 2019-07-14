@@ -24,32 +24,24 @@ module.exports = function(RED) {
 
       request(opts, (error, response, body) => {
         node.status({});
-        if (error) {
-          console.log(error);
-          node.error(RED._('kintone.error.http-request-error'));
+        try {
+          if (error) {
+            throw new Error(RED._('kintone.error.http-request-error'));
+          }
+
+          msg.payload = JSON.parse(body);
+          msg.statusCode = response.statusCode;
+          if (response.statusCode !== 200) {
+            throw new Error(msg.payload.message);
+          }
+          node.send(msg);
+        } catch (e) {
+          node.error(e.message);
           node.status({
             fill: 'red',
             shape: 'ring',
-            text: error.code
+            text: e.message
           });
-        } else {
-          if (response && response.statusCode !== 200) {
-            node.error(body);
-            node.status({
-              fill: 'red',
-              shape: 'ring',
-              text: response.statusCode
-            });
-          } else {
-            msg.payload = body;
-            try {
-              msg.payload = JSON.parse(msg.payload);
-            } catch (e) {
-              node.warn(RED._('kintone.error.json-error'));
-            }
-            msg.statusCode = response.statusCode;
-            node.send(msg);
-          }
         }
       });
     });
@@ -78,7 +70,7 @@ module.exports = function(RED) {
     return body;
   };
 
-  function KintoneConfig(n) {
+  const KintoneConfig = function(n) {
     RED.nodes.createNode(this, n);
     if (this.credentials) {
       const buffer = new Buffer(
@@ -88,7 +80,7 @@ module.exports = function(RED) {
       this.url = `https://${this.credentials.domain}`;
       this.basicToken = this.credentials.basicToken;
     }
-  }
+  };
 
   RED.nodes.registerType('kintone', KintoneNode, {});
   RED.nodes.registerType('kintone-config', KintoneConfig, {
