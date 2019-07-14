@@ -26,10 +26,8 @@ module.exports = function(RED) {
       request(opts, (error, response, body) => {
         node.status({});
         if (error) {
-          node.error(error, msg);
-          msg.payload = `${error.toString()}:${opts.url}`;
-          msg.statusCode = error.code;
-          node.send(msg);
+          console.log(error);
+          node.error(RED._('kintone.error.http-request-error'));
           node.status({
             fill: 'red',
             shape: 'ring',
@@ -40,7 +38,7 @@ module.exports = function(RED) {
           try {
             msg.payload = JSON.parse(msg.payload);
           } catch (e) {
-            node.warn(RED._('kintone.errors.json-error'));
+            node.warn(RED._('kintone.error.json-error'));
           }
           msg.statusCode = response.statusCode;
           node.send(msg);

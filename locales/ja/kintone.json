@@ -19,6 +19,8 @@
       "records": "「レコード」フィールドが空の場合、レコードには msg.payload を利用します."
     },
     "error": {
+      "http-request-error": "HTTP Request Error.",
+      "kintone-request-error": "kintone Request Error",
       "json-error": "JSON Parse Error."
     }
   }

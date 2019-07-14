@@ -19,6 +19,8 @@
       "records": "If the Records field is empty, the Records will be used msg.payload."
     },
     "error": {
+      "http-request-error": "HTTP Request Error.",
+      "kintone-request-error": "kintone Request Error",
       "json-error": "JSON Parse Error."
     }
   }
