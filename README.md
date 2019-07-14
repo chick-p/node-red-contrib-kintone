@@ -1,4 +1,7 @@
 # node-red-contrib-kintone
+
+[![npm version](https://badge.fury.io/js/node-red-contrib-kintone.svg)](https://badge.fury.io/js/node-red-contrib-kintone)
+
 [Node-RED](http://nodered.org) node that operates [kintone](https://kintone.cybozu.com) records using kintone REST API. 
 
 Support operations are as following:
