@@ -3,13 +3,16 @@
   "version": "1.0.2",
   "description": "Node-RED nodes for kintone",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest \"kintoneSpec.js\"",
     "lint": "eslint --ext .json --ext .js . || eslint -c .eslintrc.html.json --ext .html ."
   },
   "node-red": {
     "nodes": {
       "kintone": "kintone.js"
     }
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "repository": {
     "type": "git",
@@ -21,7 +24,11 @@
   "devDependencies": {
     "eslint": "^5.16.0",
     "eslint-plugin-html": "^5.0.3",
-    "eslint-plugin-json": "^1.4.0"
+    "eslint-plugin-json": "^1.4.0",
+    "jest": "^24.9.0",
+    "nock": "^11.7.0",
+    "node-red": "^0.20.0",
+    "node-red-node-test-helper": "^0.2.3"
   },
   "keywords": [
     "node-red",
