@@ -75,7 +75,7 @@
         if ( method === 'GET' ) {
           $('#node-query').show();
           $('#node-records').hide();
-        } else if ( method === 'POST' || 'PUT' ) {
+        } else if ( method === 'POST' || method === 'PUT' ) {
           $('#node-records').show();
           $('#node-query').hide();
         }
