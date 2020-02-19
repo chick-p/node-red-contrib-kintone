@@ -1,4 +1,9 @@
-# Changelog
+# CHANGELOG
+
+## [v1.0.3](https://github.com/chick-p/node-red-contrib-kintone/releases/tag/v1.0.2) (2019-07-15)
+- add test code
+- migrate module `request` to `axios` because `request` is deprecated
+
 ## [v1.0.2](https://github.com/chick-p/node-red-contrib-kintone/releases/tag/v1.0.2) (2019-07-15)
 - add BASIC authentication support
 - add error handling

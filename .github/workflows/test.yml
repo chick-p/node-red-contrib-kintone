@@ -1,0 +1,17 @@
+name: node-red-contrib-kintone
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set Node.js 12.x
+      uses: actions/setup-node@master
+      with:
+        node-version: 12.x
+    - name: npm install, and run test
+      run: |
+        npm ci
+        npm run test
+      env:
+        CI: true

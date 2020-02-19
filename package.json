@@ -19,7 +19,7 @@
     "url": "https://github.com/chick-p/node-red-contrib-kintone.git"
   },
   "dependencies": {
-    "request": "^2.88.0"
+    "axios": "^0.19.2"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
@@ -27,7 +27,7 @@
     "eslint-plugin-json": "^1.4.0",
     "jest": "^24.9.0",
     "nock": "^11.7.0",
-    "node-red": "^0.20.0",
+    "node-red": "^1.0.3",
     "node-red-node-test-helper": "^0.2.3"
   },
   "keywords": [
