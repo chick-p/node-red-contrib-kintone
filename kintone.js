@@ -1,49 +1,41 @@
 'use strict';
-const request = require('request');
+const axios = require('axios');
 
 module.exports = function(RED) {
   function KintoneNode(n) {
-
     RED.nodes.createNode(this, n);
     const node = this;
 
-    const reqTimeout = RED.settings.httpRequestTimeout? parseInt(RED.settings.httpRequestTimeout) : 120000;
+    const reqTimeout = RED.settings.httpRequestTimeout
+      ? parseInt(RED.settings.httpRequestTimeout)
+      : 120000;
 
     this.config = RED.nodes.getNode(n.config);
 
-    node.on('input', (msg) => {
+    node.on('input', msg => {
       const headers = createHeader(this.config);
       const body = createBody(n, msg);
-      const opts = {
+
+      axios({
         method: n.method,
         url: `${this.config.url}/k/v1/records.json`,
         timeout: reqTimeout,
         headers: headers,
-        body: JSON.stringify(body)
-      };
-
-      request(opts, (error, response, body) => {
-        node.status({});
-        try {
-          if (error) {
-            throw new Error(RED._('kintone.error.http-request-error'));
-          }
-
-          msg.payload = JSON.parse(body);
-          msg.statusCode = response.statusCode;
-          if (response.statusCode !== 200) {
-            throw new Error(msg.payload.message);
-          }
+        data: JSON.stringify(body)
+      })
+        .then((resp) => {
+          node.status({});
+          msg.payload = resp.data;
           node.send(msg);
-        } catch (e) {
-          node.error(e.message);
+        })
+        .catch((err) => {
+          node.error(err);
           node.status({
             fill: 'red',
             shape: 'ring',
-            text: e.message
+            text: err.message
           });
-        }
-      });
+        });
     });
   }
 
@@ -62,10 +54,10 @@ module.exports = function(RED) {
     body.app = n.appId;
     if (n.method === 'GET') {
       body.totalCount = true;
-      body.query = n.query? n.query : msg.payload;
+      body.query = n.query ? n.query : msg.payload;
     }
     if (n.method === 'POST' || n.method === 'PUT') {
-      body.records = n.records? JSON.parse(n.records) : msg.payload;
+      body.records = n.records ? JSON.parse(n.records) : msg.payload;
     }
     return body;
   };
