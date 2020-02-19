@@ -12,30 +12,28 @@ module.exports = function(RED) {
 
     this.config = RED.nodes.getNode(n.config);
 
-    node.on('input', msg => {
+    node.on('input', async (msg) => {
       const headers = createHeader(this.config);
       const body = createBody(n, msg);
-
-      axios({
-        method: n.method,
-        url: `${this.config.url}/k/v1/records.json`,
-        timeout: reqTimeout,
-        headers: headers,
-        data: JSON.stringify(body)
-      })
-        .then((resp) => {
-          node.status({});
-          msg.payload = resp.data;
-          node.send(msg);
-        })
-        .catch((err) => {
-          node.error(err);
-          node.status({
-            fill: 'red',
-            shape: 'ring',
-            text: err.message
-          });
+      try {
+        const resp = await axios({
+          method: n.method,
+          url: `${this.config.url}/k/v1/records.json`,
+          timeout: reqTimeout,
+          headers: headers,
+          data: JSON.stringify(body)
         });
+        node.status({});
+        msg.payload = resp.data;
+        node.send(msg);
+      } catch (err) {
+        node.error(err);
+        node.status({
+          fill: 'red',
+          shape: 'ring',
+          text: err.message
+        });
+      }
     });
   }
 
