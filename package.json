@@ -28,7 +28,7 @@
     "eslint-plugin-json": "^1.4.0",
     "jest": "^24.9.0",
     "nock": "^11.7.0",
-    "node-red": "^0.20.0",
+    "node-red": "^1.0.3",
     "node-red-node-test-helper": "^0.2.3"
   },
   "keywords": [
