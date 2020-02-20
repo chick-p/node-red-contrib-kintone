@@ -29,7 +29,8 @@
     "jest": "^24.9.0",
     "nock": "^11.7.0",
     "node-red": "^1.0.3",
-    "node-red-node-test-helper": "^0.2.3"
+    "node-red-node-test-helper": "^0.2.3",
+    "typescript": "^3.7.5"
   },
   "keywords": [
     "node-red",
