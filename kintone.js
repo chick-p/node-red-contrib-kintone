@@ -1,4 +1,5 @@
 'use strict';
+const base64 = require('js-base64').Base64;
 const axios = require('axios');
 
 module.exports = function(RED) {
@@ -63,10 +64,7 @@ module.exports = function(RED) {
   const KintoneConfig = function(n) {
     RED.nodes.createNode(this, n);
     if (this.credentials) {
-      const buffer = new Buffer(
-        `${this.credentials.username}:${this.credentials.password}`
-      );
-      this.token = buffer.toString('base64');
+      this.token = base64.encode(`${this.credentials.username}:${this.credentials.password}`);
       this.url = `https://${this.credentials.domain}`;
       this.basicToken = this.credentials.basicToken;
     }
