@@ -1,0 +1,163 @@
+<script type="text/x-red" data-template-name="kintone">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="kintone.label.name"></span></label>
+    <input type="text" id="node-input-name" data-i18n="[placeholder]kintone.label.name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-config"><i class="icon-cog"></i> <span data-i18n="kintone.label.config"></span></label>
+    <input type="text" id="node-input-config" data-i18n="[placeholder]kintone.label.config">
+  </div>
+  <div class="form-row">
+    <label for="node-input-method"><i class="fa fa-tasks"></i> <span data-i18n="kintone.label.method"></span></label>
+    <select type="text" id="node-input-method" style="width:70%;">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+    <option value="PUT">PUT</option>
+  </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-appId"><i class="fa fa-wrench"></i> <span data-i18n="kintone.label.appId"></span><span style="color:#ff0000"> *</span></label>
+    <input type="number" id="node-input-appId" data-i18n="[placeholder]kintone.label.appId">
+  </div>
+  <div id="node-query">
+    <div class="form-row" style="position: relative; margin-bottom: 0px;">
+      <label for="node-input-query"><i class="fa fa-file-code-o"></i> <span data-i18n="kintone.label.query"></span></label>
+      <input type="hidden" id="node-input-query" autofocus="autofocus">
+    </div>
+    <div class="form-row node-text-editor-row">
+      <div style="height:250px;" class="node-text-editor" id="node-input-query-editor"></div>
+    </div>
+    <div class="form-tips" id="tips-query"><span data-i18n="kintone.tip.query"></span></div>
+  </div>
+  <div id="node-records">
+    <div class="form-row" id="node-records" style="position: relative; margin-bottom: 0px;">
+      <label for="node-input-records"><i class="fa fa-file-code-o"></i> <span data-i18n="kintone.label.records"></span></label>
+      <input type="hidden" id="node-input-records" autofocus="autofocus">
+    </div>
+    <div class="form-row node-text-editor-row">
+      <div style="height:250px;" class="node-text-editor" id="node-input-records-editor"></div>
+    </div>
+    <div class="form-tips" id="tips-records"><span data-i18n="kintone.tip.records"></span></div>
+  </div>
+</script>
+<script type="text/javascript">
+  RED.nodes.registerType('kintone', {
+    category: 'function',
+    color: '#fdd835',
+    defaults: {
+      name: { value: '' },
+      config: { type: 'kintone-config', required: true },
+      appId: { value: '', required: true },
+      query: { value: '' },
+      records: { value: '' },
+      method: { value: 'GET' }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: 'icons/kintone.png',
+    label: function() {
+      return this.name || this.method;
+    },
+    oneditprepare: function() {
+      $('#node-records').hide();
+      this.queryEditor = RED.editor.createEditor({
+        id: 'node-input-query-editor',
+        mode: 'ace/mode/handlebars',
+        value: $('#node-input-query').val()
+      });
+      this.recordEditor = RED.editor.createEditor({
+        id: 'node-input-records-editor',
+        mode: 'ace/mode/handlebars',
+        value: $('#node-input-records').val()
+      });
+      $('#node-input-method').on('change', function() {
+        var method = $('#node-input-method').val();
+        if ( method === 'GET' ) {
+          $('#node-query').show();
+          $('#node-records').hide();
+        } else if ( method === 'POST' || method === 'PUT' ) {
+          $('#node-records').show();
+          $('#node-query').hide();
+        }
+      });
+    },
+    oneditsave: function() {
+      $('#node-input-query').val(this.queryEditor.getValue());
+      $('#node-input-records').val(this.recordEditor.getValue());
+      this.queryEditor.destroy();
+      this.recordEditor.destroy();
+      delete this.queryEditor;
+      delete this.recordEditor;
+    },
+    oneditcancel: function() {
+      this.queryEditor.destroy();
+      this.recordEditor.destroy();
+      delete this.queryEditor;
+      delete this.recordEditor;
+    },
+    oneditresize: function() {
+      var rows = $('#dialog-form>div:not(.node-text-editor-row)');
+      var height = $('#dialog-form').height();
+      for (var i = 0; i < rows.size(); i++) {
+        height -= $(rows[i]).outerHeight(true);
+      }
+      var editorRow = $('#dialog-form>div.node-text-editor-row');
+      height -=
+        parseInt(editorRow.css('marginTop')) +
+        parseInt(editorRow.css('marginBottom'));
+      $('.node-text-editor').css('height', height + 'px');
+      this.recordEditor.resize();
+      this.queryEditor.resize();
+    }
+  });
+</script>
+<script type="text/x-red" data-help-name="kintone">
+  <p>Provides a node for call <a href="https://developer.cybozu.io/hc/ja/articles/360000313406" target="_blank">kintone REST API</a>.</p>
+  <p>This node supports for operating kintone records.</a>
+</script>
+
+<script type="text/x-red" data-template-name="kintone-config">
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="fa fa-tag"></i> <span data-i18n="kintone.label.name"></span></label>
+    <input type="text" id="node-config-input-name" data-i18n="[placeholder]kintone.label.name">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-domain"><i class="fa fa-globe"></i> <span data-i18n="kintone.label.domain"></span><span style="color:#ff0000"> *</span></label>
+    <input type="text" id="node-config-input-domain" data-i18n="[placeholder]kintone.label.domainPlaceHolder">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-username"><i class="fa fa-user"></i> <span data-i18n="kintone.label.username"></span><span style="color:#ff0000"> *</span></label>
+    <input type="text" id="node-config-input-username" data-i18n="[placeholder]kintone.label.username">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-password"><i class="fa fa-key"></i> <span data-i18n="kintone.label.password"></span><span style="color:#ff0000"> *</span></label>
+    <input type="password" id="node-config-input-password" data-i18n="[placeholder]kintone.label.password">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-basicToken"><i class="fa fa-key"></i> <span data-i18n="kintone.label.basicToken"></span></label>
+    <input type="password" id="node-config-input-basicToken" data-i18n="[placeholder]kintone.label.basicTokenPlaceHolder">
+  </div>
+</script>
+<script type="text/javascript">
+  RED.nodes.registerType('kintone-config', {
+    category: 'config',
+    defaults: {
+      name: { value: '' }
+    },
+    credentials: {
+      domain: {
+        type: 'text',
+        required: true,
+        validate: RED.validators.regex(
+          /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.(cybozu.com)$/
+        )
+      },
+      username: { type: 'text', required: true },
+      password: { type: 'password', required: true },
+      basicToken: { type: 'password'},
+    },
+    label: function() {
+      return this.name || 'config[' + this.id + ']';
+    }
+  });
+</script>

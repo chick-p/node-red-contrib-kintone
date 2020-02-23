@@ -1,18 +1,25 @@
 {
   "name": "node-red-contrib-kintone",
-  "version": "1.0.3",
+  "version": "1.0.10",
   "description": "Node-RED nodes for kintone",
   "scripts": {
-    "test": "jest \"kintoneSpec.js\"",
-    "lint": "eslint --ext .json --ext .js . || eslint -c .eslintrc.html.json --ext .html ."
+    "build": "npm run copy:html && npm run copy:icons && tsc ",
+    "copy:html": "mkdir -p dist/nodes/ && cp -a src/nodes/*.html dist/nodes/",
+    "copy:icons": "mkdir -p dist/nodes/icons && cp -a src/nodes/icons/. dist/nodes/icons",
+    "test": "jest --rootDir src",
+    "lint": "eslint --ext .json --ext .ts . || eslint -c .eslintrc.html.json --ext .html ."
   },
   "node-red": {
     "nodes": {
-      "kintone": "kintone.js"
+      "kintone": "dist/nodes/kintone.js"
     }
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testMatch": ["<rootDir>/**/*.test.ts"],
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    }
   },
   "repository": {
     "type": "git",

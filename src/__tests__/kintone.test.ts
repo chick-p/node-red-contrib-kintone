@@ -1,8 +1,8 @@
-const helper = require('node-red-node-test-helper');
-const nock = require('nock');
-const kintoneNode = require('../kintone.js');
-helper.init(require.resolve('node-red'));
+import helper from 'node-red-node-test-helper';
+import nock from 'nock';
+import { kintoneNode } from '../nodes/kintone';
 
+helper.init(require.resolve('node-red'));
 describe('kintone Node', () => {
   beforeEach((done) => {
     helper.startServer(done);
@@ -62,5 +62,4 @@ describe('kintone Node', () => {
       });
     });
   });
-
 });
