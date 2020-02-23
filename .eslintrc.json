@@ -6,14 +6,16 @@
   },
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"],
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2017,
     "sourceType": "module"
   },
   "rules": {
-    "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
@@ -25,7 +27,13 @@
       }
     ],
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-this-alias": "off"
+    "@typescript-eslint/no-this-alias": "off",
+    "prettier/prettier": [
+      "error", {
+        "singleQuote": true,
+        "semi": true,
+        "arrowParens": "always"
+    }]
   },
   "plugins": ["json", "@typescript-eslint"]
 }
