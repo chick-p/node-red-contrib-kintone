@@ -52,7 +52,7 @@ describe('kintone Node', () => {
       n2.on('input', (msg) => {
         try {
           expect(msg.payload.totalCount).toBe('20');
-        } catch(e) {
+        } catch (e) {
           console.log(e);
         }
         done();

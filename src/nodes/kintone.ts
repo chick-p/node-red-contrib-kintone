@@ -2,7 +2,11 @@ import { Red, Node, NodeProperties } from 'node-red';
 import { Base64 } from 'js-base64';
 import Axios from 'axios';
 
-import { KintoneRequestProps, NodeResponse, ConnectConfig } from './lib/interfaces';
+import {
+  KintoneRequestProps,
+  NodeResponse,
+  ConnectConfig
+} from './lib/interfaces';
 
 type KintoneAuthHeader = {
   'Content-Type': string;
@@ -13,8 +17,8 @@ type KintoneAuthHeader = {
 const buildHeaders = (config: ConnectConfig): KintoneAuthHeader => {
   const headers = config.basicToken
     ? {
-      Authorization: `Basic ${config.basicToken}`
-    }
+        Authorization: `Basic ${config.basicToken}`
+      }
     : {};
   return {
     ...headers,
@@ -24,9 +28,9 @@ const buildHeaders = (config: ConnectConfig): KintoneAuthHeader => {
 };
 
 export const kintoneNode = (RED: Red) => {
-  RED.nodes.registerType('kintone', function (
+  RED.nodes.registerType('kintone', function(
     this: Node,
-    props: KintoneRequestProps,
+    props: KintoneRequestProps
   ) {
     RED.nodes.createNode(this, props);
     const configNode = RED.nodes.getNode(props.config) as ConnectConfig;
@@ -34,15 +38,17 @@ export const kintoneNode = (RED: Red) => {
 
     node.on('input', async (msg: NodeResponse) => {
       const headers = buildHeaders(configNode);
-      const body = props.method === 'GET' ?
-        {
-          app: props.appId,
-          totalCount: true,
-          query: props.query ? props.query : msg.payload,
-        } : {
-          app: props.appId,
-          records: props.records ? JSON.parse(props.records) : msg.payload
-        };
+      const body =
+        props.method === 'GET'
+          ? {
+              app: props.appId,
+              totalCount: true,
+              query: props.query ? props.query : msg.payload
+            }
+          : {
+              app: props.appId,
+              records: props.records ? JSON.parse(props.records) : msg.payload
+            };
       try {
         const resp = await Axios({
           method: props.method,
@@ -70,12 +76,14 @@ export const kintoneNode = (RED: Red) => {
 
   RED.nodes.registerType(
     'kintone-config',
-    function (this: ConnectConfig, props: NodeProperties): void {
+    function(this: ConnectConfig, props: NodeProperties): void {
       RED.nodes.createNode(this, props);
       if (!this.credentials) {
         return;
       }
-      this.token = Base64.encode(`${this.credentials.username}:${this.credentials.password}`);
+      this.token = Base64.encode(
+        `${this.credentials.username}:${this.credentials.password}`
+      );
       this.url = `https://${this.credentials.domain}`;
       if (this.credentials.basicToken) {
         this.basicToken = this.credentials.basicToken;
@@ -86,9 +94,8 @@ export const kintoneNode = (RED: Red) => {
         domain: { type: 'text' },
         username: { type: 'text' },
         password: { type: 'password' },
-        basicToken: { type: 'password' },
-      },
-    },
+        basicToken: { type: 'password' }
+      }
+    }
   );
 };
-
